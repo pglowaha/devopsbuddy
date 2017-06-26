@@ -4,6 +4,8 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Pawel on 6/25/2017.
@@ -52,6 +54,11 @@ public class User implements Serializable{
     @ManyToOne(fetch = FetchType.EAGER) // i.e. there will be many users for one plan
     @JoinColumn(name = "plan_id") //this collumn will be used as a foreign key
     private Plan plan;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<UserRole> userRoles = new HashSet<>();
+
+
 
     public long getId() {
         return id;
@@ -155,6 +162,14 @@ public class User implements Serializable{
 
     public void setPlan(Plan plan) {
         this.plan = plan;
+    }
+
+    public Set<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 
     @Override
